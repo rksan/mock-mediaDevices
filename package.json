@@ -1,0 +1,52 @@
+{
+  "name": "mock-mediadevices",
+  "description": "WebAPI window.navigator.mediaDevices のモック",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "tsc:init": "tsc --init",
+    "pretest": "rm -rf tsconfig.tsnode.json && tsc -p ./tsconfig.json --showConfig > tsconfig.tsnode.json",
+    "test": "nyc ts-mocha --paths -p ./tsconfig.tsnode.json test/**/*.spec.ts -R spec",
+    "lint": "eslint . --ignore-path .gitignore --ignore-path .eslintignore",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rksan/mock-mediaDevices.git"
+  },
+  "keywords": [
+    "WebAPI",
+    "mediaDevices"
+  ],
+  "author": "rksan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rksan/mock-mediaDevices/issues"
+  },
+  "homepage": "https://github.com/rksan/mock-mediaDevices#readme",
+  "devDependencies": {
+    "@babel/core": "^7.22.11",
+    "@babel/eslint-parser": "^7.22.11",
+    "@babel/preset-env": "^7.22.10",
+    "@types/chai": "^4.3.5",
+    "@types/eslint": "^8.44.2",
+    "@types/mocha": "^10.0.1",
+    "@types/prettier": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "app-root-path": "^3.1.0",
+    "chai": "^4.3.8",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-jsonc": "^2.9.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jsonc-eslint-parser": "^2.3.0",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "prettier": "^3.0.3",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.2.2"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "./configs/tsconfig.base.json"
+  ],
+  "include": [
+    "./src/**/*",
+    "./test/**/*",
+    "./.eslintrc"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "outDir": "./.build"
+  }
+}
