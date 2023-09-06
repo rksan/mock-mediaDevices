@@ -2,7 +2,7 @@ import { describe, it } from "mocha";
 import { assert } from "chai";
 
 import { randomString } from "@rksan/random-string";
-import { classes, factory, types } from "@/mock-mediaDevices";
+import { classes, factory, types } from "@/index";
 
 describe("mock-mediaDevices", () => {
   const devices: types.mock.MediaDeviceInfoArgs[] = [
