@@ -1,3 +1,9 @@
+/**
+ * Mock of MediaTrackSupportedConstraints
+ * @export
+ * @interface MediaTrackSupportedConstraints
+ * @ref [MediaTrackSupportedConstraints | MDN](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackSupportedConstraints)
+ */
 export interface MediaTrackSupportedConstraints {
   autoGainControl: boolean;
   width: boolean;

@@ -1,12 +1,14 @@
 {
-  "name": "mock-mediadevices",
+  "name": "@rksan/mock-mediadevices",
   "description": "WebAPI window.navigator.mediaDevices のモック",
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
     "tsc:init": "tsc --init",
-    "pretest": "rm -rf tsconfig.tsnode.json && tsc -p ./tsconfig.json --showConfig > tsconfig.tsnode.json",
-    "test": "nyc ts-mocha --paths -p ./tsconfig.tsnode.json test/**/*.spec.ts -R spec",
+    "pretest": "rm -rf .nyc_output && rm -rf tsconfig.tsnode.json && tsc -p ./tsconfig.json --showConfig > tsconfig.tsnode.json",
+    "test": "nyc ts-mocha --paths -p ./tsconfig.tsnode.json test/**/*.spec.ts",
+    "precoverage": "rm -rf coverage && mkdir coverage",
+    "coverage": "npm run test && nyc report --reporter=lcovonly",
     "lint": "eslint . --ignore-path .gitignore --ignore-path .eslintignore",
     "lint:fix": "npm run lint -- --fix"
   },
@@ -16,7 +18,8 @@
   },
   "keywords": [
     "WebAPI",
-    "mediaDevices"
+    "mediaDevices",
+    "mock"
   ],
   "author": "rksan",
   "license": "MIT",
@@ -28,6 +31,7 @@
     "@babel/core": "^7.22.11",
     "@babel/eslint-parser": "^7.22.11",
     "@babel/preset-env": "^7.22.10",
+    "@rksan/random-string": "^0.1.0",
     "@types/chai": "^4.3.5",
     "@types/eslint": "^8.44.2",
     "@types/mocha": "^10.0.1",

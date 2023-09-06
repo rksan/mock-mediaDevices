@@ -1,0 +1,14 @@
+{
+  "reporter": [
+    "text"
+  ],
+  "extension": [
+    ".js",
+    ".cjs",
+    ".mjs",
+    ".ts"
+  ],
+  "exclude": [
+    "**/test/**.spec.js"
+  ]
+}

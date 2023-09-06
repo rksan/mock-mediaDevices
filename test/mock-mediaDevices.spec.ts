@@ -1,27 +1,35 @@
+import { describe, it } from "mocha";
 import { assert } from "chai";
-import { utils, mocks } from "@/mock-mediaDevices";
+
+import { randomString } from "@rksan/random-string";
+import { classes, factory, types } from "@/mock-mediaDevices";
 
 describe("mock-mediaDevices", () => {
-  const deviceInfos = utils.createMediaDeviceInfo([
+  const devices: types.mock.MediaDeviceInfoArgs[] = [
     {
-      deviceId: "test-video-device",
-      groupId: "test-video-device-group",
+      deviceId: randomString(32),
+      groupId: randomString(32),
       kind: "videoinput",
       label: "test-video-device-label",
     },
-  ]);
+  ];
+  const deviceInfos: types.MediaDeviceInfo[] =
+    factory.createMediaDeviceInfo(devices);
 
-  const mediaDevices = utils.createMediaDevices(deviceInfos);
+  const mediaDevices: types.MediaDevices =
+    factory.createMediaDevices(deviceInfos);
 
   describe("mediaDevices", () => {
-    describe("enumerateDevices()", async () => {
-      const devices = await mediaDevices.enumerateDevices();
-
-      it("isArray", () => {
+    describe("enumerateDevices()", () => {
+      it("isArray", async () => {
+        const devices: types.MediaDeviceInfo[] =
+          await mediaDevices.enumerateDevices();
         assert.isArray(devices);
       });
 
-      it("devices properties", () => {
+      it("devices properties", async () => {
+        const devices: types.MediaDeviceInfo[] =
+          await mediaDevices.enumerateDevices();
         devices.map((info) => {
           assert.isString(info.deviceId);
           assert.isString(info.groupId);
@@ -30,7 +38,9 @@ describe("mock-mediaDevices", () => {
         });
       });
 
-      it("devices toJSON()", () => {
+      it("devices toJSON()", async () => {
+        const devices: types.MediaDeviceInfo[] =
+          await mediaDevices.enumerateDevices();
         devices.map((info) => {
           const json = info.toJSON();
           assert.isObject(json);
@@ -39,23 +49,72 @@ describe("mock-mediaDevices", () => {
     });
 
     describe("getDisplayMedia()", () => {
-      describe("{video: true}", async () => {
-        const stream = await mediaDevices.getDisplayMedia({
-          video: true,
-        });
-
-        it("instanceOf MediaStream", () => {
-          assert.instanceOf(stream, mocks.MediaStream);
+      describe("{video: true}", () => {
+        it("instanceOf MediaStream", async () => {
+          const stream: types.MediaStream = await mediaDevices.getDisplayMedia({
+            video: true,
+          });
+          assert.instanceOf(stream, classes.MockMediaStream);
         });
       });
 
-      describe("{audio: true}", async () => {
-        const stream = await mediaDevices.getDisplayMedia({
-          audio: true,
+      describe("{video: constraints}", () => {
+        it("instanceOf MediaStream", async () => {
+          const stream: types.MediaStream = await mediaDevices.getDisplayMedia({
+            video: {
+              width: { min: 160, max: 14840, ideal: 1240 },
+              aspectRatio: { ideal: 16 / 9 },
+            },
+          });
+          assert.instanceOf(stream, classes.MockMediaStream);
         });
+      });
 
-        it("instanceOf MediaStream", () => {
-          assert.instanceOf(stream, mocks.MediaStream);
+      describe("{audio: true}", () => {
+        it("instanceOf MediaStream", async () => {
+          const stream: types.MediaStream = await mediaDevices.getDisplayMedia({
+            audio: true,
+          });
+          assert.instanceOf(stream, classes.MockMediaStream);
+        });
+      });
+
+      describe("{audio: constraints}", () => {
+        it("instanceOf MediaStream", async () => {
+          const stream: types.MediaStream = await mediaDevices.getDisplayMedia({
+            audio: {
+              autoGainControl: true,
+            },
+          });
+          assert.instanceOf(stream, classes.MockMediaStream);
+        });
+      });
+
+      describe("{video:constraints, audio: constraints}", () => {
+        it("instanceOf MediaStream", async () => {
+          const stream: types.MediaStream = await mediaDevices.getDisplayMedia({
+            video: {
+              width: {
+                ideal: 1280,
+              },
+              aspectRatio: { ideal: 16 / 9 },
+            },
+            audio: {
+              autoGainControl: true,
+            },
+          });
+          assert.instanceOf(stream, classes.MockMediaStream);
+        });
+      });
+    });
+
+    describe("getSupportedConstraints()", () => {
+      it("do()", () => {
+        const support: types.MediaTrackSupportedConstraints =
+          mediaDevices.getSupportedConstraints();
+        Object.entries(support).map(([key, value]) => {
+          assert.isString(key);
+          assert.isBoolean(value);
         });
       });
     });

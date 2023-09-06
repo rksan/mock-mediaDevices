@@ -1,13 +1,8 @@
-import {
-  MediaDeviceOptions,
-  MediaTrackCapabilities,
-  MediaTrackSettings,
-} from "@/types";
-
-import { MediaStream } from "@/mocks/MediaStream.mock";
+import * as types from "@/types";
 
 /**
- *
+ * Mock of MediaStreamTrack
+ * @ref [MediaStreamTrack | MDN](https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack)
  * @export
  * @interface MediaStreamTrack
  * @extends {EventTarget}
@@ -29,10 +24,10 @@ export interface MediaStreamTrack extends EventTarget {
   readonly readyState: "live" | "ended";
 
   // methods
-  applyConstraints(options?: MediaDeviceOptions): Promise<MediaStream>;
-  clone(): MediaStreamTrack;
-  getCapabilities(): MediaTrackCapabilities;
-  getSettings(): MediaTrackSettings;
+  applyConstraints(options?: types.MediaDeviceOptions): Promise<void>;
+  clone(): types.MediaStreamTrack;
+  getCapabilities(): types.MediaTrackCapabilities;
+  getSettings(): types.MediaTrackSettings;
   stop(): void;
 
   // events
@@ -43,17 +38,4 @@ export interface MediaStreamTrack extends EventTarget {
    */
   onoverconstrained?(event: Event): void;
   onunmute?(event: Event): void;
-}
-
-export class MediaStreamTrackEvent extends Event {
-  #track: MediaStreamTrack;
-
-  constructor(type: string, options: EventInit & { track: MediaStreamTrack }) {
-    super(type, options);
-    this.#track = options.track;
-  }
-
-  get track(): MediaStreamTrack {
-    return this.#track;
-  }
 }

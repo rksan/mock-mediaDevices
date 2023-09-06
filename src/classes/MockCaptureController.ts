@@ -1,4 +1,6 @@
-export class CaptureController {
+import * as types from "@/types";
+
+export class MockCaptureController implements types.CaptureController {
   focusBehavior: string;
   constructor() {
     this.focusBehavior = "";

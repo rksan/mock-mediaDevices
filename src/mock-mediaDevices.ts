@@ -1,4 +1,6 @@
-import * as mocks from "@/mocks";
+import * as classes from "@/classes";
+import * as factory from "@/factory";
+import * as types from "@/types";
 import * as utils from "@/utils";
 
-export { mocks, utils };
+export { classes, factory, types, utils };
