@@ -42,11 +42,9 @@ export class MockMediaStream extends EventTarget implements types.MediaStream {
   addTrack(track: types.MediaStreamTrack): void {
     if (this.#tracks.filter((t) => t.id === track.id).length === 0) {
       this.#tracks.push(track);
-      const event = new classes.MockMediaStreamTrackEvent(
-        "addtrack",
-        this,
-        track
-      );
+      const event = new classes.MockMediaStreamTrackEvent("addtrack", {
+        track,
+      });
       this.dispatchEvent(event);
     }
   }
@@ -77,11 +75,9 @@ export class MockMediaStream extends EventTarget implements types.MediaStream {
   removeTrack(track: types.MediaStreamTrack): void {
     this.#tracks = this.#tracks.filter((t) => {
       if (t.id !== track.id) {
-        const event = new classes.MockMediaStreamTrackEvent(
-          "removetrack",
-          this,
-          track
-        );
+        const event = new classes.MockMediaStreamTrackEvent("removetrack", {
+          track,
+        });
         this.dispatchEvent(event);
       }
     });

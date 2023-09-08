@@ -128,16 +128,12 @@ describe("MockMediaStream", () => {
     it("dispatchEvent", () => {
       assert.isFunction(stream.dispatchEvent);
 
-      const addEvent = new classes.MockMediaStreamTrackEvent(
-        "addtrack",
-        stream,
-        dummyTrack
-      );
-      const rmvEvent = new classes.MockMediaStreamTrackEvent(
-        "removetrack",
-        stream,
-        dummyTrack
-      );
+      const addEvent = new classes.MockMediaStreamTrackEvent("addtrack", {
+        track: dummyTrack,
+      });
+      const rmvEvent = new classes.MockMediaStreamTrackEvent("removetrack", {
+        track: dummyTrack,
+      });
 
       stream.dispatchEvent(addEvent);
       stream.dispatchEvent(rmvEvent);

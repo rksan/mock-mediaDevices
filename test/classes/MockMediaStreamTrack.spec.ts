@@ -3,7 +3,6 @@ import { assert } from "chai";
 
 import type * as types from "@/types";
 import * as classes from "@/classes";
-//import { getUUID } from "@/utils";
 
 describe("MockMediaStreamTrack", () => {
   let track: types.MediaStreamTrack;
