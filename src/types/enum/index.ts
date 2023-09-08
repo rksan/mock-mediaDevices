@@ -4,6 +4,8 @@ export type MediaDeviceInfoKindEnum =
   | "audioinput"
   | "audiooutput";
 
+export type MediaStreamEventTypeEnum = "addtrack" | "removetrack";
+
 // native
 
 // MediaTrackConstraints

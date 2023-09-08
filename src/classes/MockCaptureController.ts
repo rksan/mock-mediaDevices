@@ -1,9 +1,10 @@
-import * as types from "@/types";
+import type * as types from "@/types";
 
 export class MockCaptureController implements types.CaptureController {
-  focusBehavior: string;
+  focusBehavior: "focus-captured-surface" | "no-focus-change";
+
   constructor() {
-    this.focusBehavior = "";
+    this.focusBehavior = "focus-captured-surface";
   }
   setFocusBehavior(
     focusBehavior: "focus-captured-surface" | "no-focus-change"

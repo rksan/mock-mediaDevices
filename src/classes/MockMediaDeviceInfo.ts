@@ -1,10 +1,5 @@
-import * as types from "@/types";
+import type * as types from "@/types";
 import { toJSON } from "@/utils";
-
-const randomValue = (length: number) => {
-  const array = new Uint32Array(length);
-  crypto.getRandomValues(array);
-};
 
 export class MockMediaDeviceInfo implements types.MediaDeviceInfo {
   #deviceId: string;
@@ -13,7 +8,7 @@ export class MockMediaDeviceInfo implements types.MediaDeviceInfo {
   #label: string;
 
   constructor(options: types.mock.MediaDeviceInfoArgs) {
-    this.#deviceId = options.deviceId ?? randomValue(32);
+    this.#deviceId = options.deviceId;
     this.#groupId = options.groupId;
     this.#kind = options.kind;
     this.#label = options.label;
@@ -36,6 +31,11 @@ export class MockMediaDeviceInfo implements types.MediaDeviceInfo {
   }
 
   toJSON(): JSON {
-    return toJSON(this);
+    return toJSON({
+      deviceId: this.#deviceId,
+      groupId: this.#groupId,
+      kind: this.#kind,
+      label: this.#label,
+    });
   }
 }

@@ -1,14 +1,14 @@
-import * as types from "@/types";
-import { MockMediaStreamTrackEvent } from "@/classes/MockMediaStreamEvent";
+import type * as types from "@/types";
+import { deepClone } from "@/utils";
+import { MockMediaStreamTrackEvent } from "@/classes/MockMediaStreamTrackEvent";
 
 //-------
 // types
 //-------
-type MockMediaStreamEventEnum = "addtrack" | "removetrack";
 
 type MockMediaStreamEvents = {
-  addtrack: EventListenerOrEventListenerObject[];
-  removetrack: EventListenerOrEventListenerObject[];
+  addtrack: types.mock.MediaStreamEventHandler[];
+  removetrack: types.mock.MediaStreamEventHandler[];
 };
 
 /**
@@ -17,31 +17,38 @@ type MockMediaStreamEvents = {
  * @class MockMediaStream
  * @extends {EventTarget}
  */
-export class MockMediaStream implements types.MediaStream {
+export class MockMediaStream extends EventTarget implements types.MediaStream {
+  #id: string;
+
   #tracks: types.MediaStreamTrack[] = [];
   #events: MockMediaStreamEvents = {
     addtrack: [],
     removetrack: [],
   };
 
-  get active() {
+  constructor(options: { id: string }) {
+    super();
+    this.#id = options.id;
+  }
+
+  get active(): boolean {
     return this.#tracks.filter((t) => t.enabled === true).length !== 0;
   }
-  get id() {
-    return this.#tracks.length === 0 ? "" : this.#tracks[0].id;
+  get id(): string {
+    return this.#id;
   }
 
   // methods
   addTrack(track: types.MediaStreamTrack): void {
     if (this.#tracks.filter((t) => t.id === track.id).length === 0) {
       this.#tracks.push(track);
-      const event = new MockMediaStreamTrackEvent("addtrack", { track });
+      const event = new MockMediaStreamTrackEvent("addtrack", track);
       this.dispatchEvent(event);
     }
   }
 
   clone(): types.MediaStream {
-    return structuredClone(this);
+    return deepClone(this);
   }
 
   getAudioTracks(): types.MediaStreamTrack[] {
@@ -66,15 +73,15 @@ export class MockMediaStream implements types.MediaStream {
   removeTrack(track: types.MediaStreamTrack): void {
     this.#tracks = this.#tracks.filter((t) => {
       if (t.id !== track.id) {
-        const event = new MockMediaStreamTrackEvent("removetrack", { track });
+        const event = new MockMediaStreamTrackEvent("removetrack", track);
         this.dispatchEvent(event);
       }
     });
   }
 
   addEventListener(
-    type: MockMediaStreamEventEnum,
-    callback: EventListenerOrEventListenerObject | null,
+    type: types.enum.MediaStreamEventTypeEnum,
+    callback: types.mock.MediaStreamEventHandler | null,
     options?: boolean | AddEventListenerOptions | undefined
   ): void {
     if (callback) this.#events[type].push(callback);
@@ -102,8 +109,8 @@ export class MockMediaStream implements types.MediaStream {
   }
 
   removeEventListener(
-    type: MockMediaStreamEventEnum,
-    callback: EventListenerOrEventListenerObject | null,
+    type: types.enum.MediaStreamEventTypeEnum,
+    callback: types.mock.MediaStreamEventHandler | null,
     options?: boolean | EventListenerOptions | undefined
   ): void {
     if (callback) {

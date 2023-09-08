@@ -1,0 +1,10 @@
+export type * from "./CaptureController";
+export type * from "./MediaDeviceInfo";
+export type * from "./MediaDevices";
+export type * from "./MediaStream";
+export type * from "./MediaStreamTrack";
+export type * from "./MediaStreamTrackEvent";
+export type * from "./MediaTrackCapabilities";
+export type * from "./MediaTrackConstraints";
+export type * from "./MediaTrackSettings";
+export type * from "./MediaTrackSupportedConstraints";

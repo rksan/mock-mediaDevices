@@ -1,5 +1,6 @@
+export * from "./MockCaptureController";
 export * from "./MockMediaDeviceInfo";
 export * from "./MockMediaDevices";
 export * from "./MockMediaStream";
-export * from "./MockMediaStreamEvent";
+export * from "./MockMediaStreamTrackEvent";
 export * from "./MockMediaStreamTrack";

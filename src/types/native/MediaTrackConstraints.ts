@@ -1,4 +1,4 @@
-import * as types from "@/types";
+import type * as types from "@/types";
 
 /**
  * @ref [ConstrainBoolean | MDN](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#constrainboolean)

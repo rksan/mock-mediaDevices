@@ -1,4 +1,4 @@
-import * as types from "@/types";
+import type * as types from "@/types";
 
 export type MediaDeviceInfoArgs = {
   deviceId: string;

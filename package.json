@@ -6,7 +6,7 @@
   "scripts": {
     "tsc:init": "tsc --init",
     "pretest": "rm -rf .nyc_output && rm -rf tsconfig.tsnode.json && tsc -p ./tsconfig.json --showConfig > tsconfig.tsnode.json",
-    "test": "nyc --cache false ts-mocha --paths -p ./tsconfig.tsnode.json test/**/*.spec.ts",
+    "test": "nyc ts-mocha --paths -p ./tsconfig.tsnode.json test/**/*.spec.ts",
     "precoverage": "rm -rf coverage && mkdir coverage",
     "coverage": "npm run test && nyc report --reporter=lcovonly",
     "lint": "eslint . --ignore-path .gitignore --ignore-path .eslintignore",

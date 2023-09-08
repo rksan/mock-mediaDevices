@@ -1,4 +1,4 @@
-import * as types from "@/types";
+import type * as types from "@/types";
 
 /**
  * @ref [Instance properties of video tracks | MDN](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#instance_properties_of_video_tracks)

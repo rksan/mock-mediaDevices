@@ -1,12 +1,3 @@
-export * from "./native/CaptureController";
-export * from "./native/MediaDeviceInfo";
-export * from "./native/MediaDevices";
-export * from "./native/MediaStream";
-export * from "./native/MediaStreamTrack";
-export * from "./native/MediaStreamTrackEvent";
-export * from "./native/MediaTrackCapabilities";
-export * from "./native/MediaTrackConstraints";
-export * from "./native/MediaTrackSettings";
-export * from "./native/MediaTrackSupportedConstraints";
-export * as enum from "./enum";
+export type * from "./native";
+export type * as enum from "./enum";
 export * as mock from "./mock";

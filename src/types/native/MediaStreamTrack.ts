@@ -1,4 +1,4 @@
-import * as types from "@/types";
+import type * as types from "@/types";
 
 /**
  * Mock of MediaStreamTrack
@@ -24,7 +24,7 @@ export interface MediaStreamTrack extends EventTarget {
   readonly readyState: "live" | "ended";
 
   // methods
-  applyConstraints(options?: types.MediaDeviceOptions): Promise<void>;
+  applyConstraints(options?: types.mock.MediaDeviceArgs): Promise<void>;
   clone(): types.MediaStreamTrack;
   getCapabilities(): types.MediaTrackCapabilities;
   getSettings(): types.MediaTrackSettings;

@@ -1,4 +1,4 @@
-import * as types from "@/types";
+import type * as types from "@/types";
 
 export interface MediaStream extends EventTarget {
   readonly active: boolean;
@@ -10,6 +10,17 @@ export interface MediaStream extends EventTarget {
   getTracks(): types.MediaStreamTrack[];
   getVideoTracks(): types.MediaStreamTrack[];
   removeTrack(track: types.MediaStreamTrack): void;
+  addEventListener(
+    type: types.enum.MediaStreamEventTypeEnum,
+    callback: types.mock.MediaStreamEventHandler | null,
+    options?: boolean | AddEventListenerOptions | undefined
+  ): void;
+  dispatchEvent(event: types.MediaStreamTrackEvent): boolean;
+  removeEventListener(
+    type: types.enum.MediaStreamEventTypeEnum,
+    callback: types.mock.MediaStreamEventHandler | null,
+    options?: boolean | EventListenerOptions | undefined
+  ): void;
   onaddtrack?(event: types.MediaStreamTrackEvent): void;
   onremovetrack?(event: types.MediaStreamTrackEvent): void;
   onactive?(event: types.MediaStreamTrackEvent): void;

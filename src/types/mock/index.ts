@@ -1,7 +1,8 @@
-export * from "./MediaDeviceInfoArgs";
-export * from "./MediaDeviceArgs";
-export * from "./MediaTrackConstraintsOfAll";
-export * from "./MediaTrackConstraintsOfAudio";
-export * from "./MediaTrackConstraintsOfImage";
-export * from "./MediaTrackConstraintsOfVideo";
-export * from "./MediaTrackConstraintsOfSharedScreen";
+export type * from "./MediaDeviceInfoArgs";
+export type * from "./MediaDeviceArgs";
+export type * from "./MediaStreamEventHandler";
+export type * from "./MediaTrackConstraintsOfAll";
+export type * from "./MediaTrackConstraintsOfAudio";
+export type * from "./MediaTrackConstraintsOfImage";
+export type * from "./MediaTrackConstraintsOfVideo";
+export type * from "./MediaTrackConstraintsOfSharedScreen";

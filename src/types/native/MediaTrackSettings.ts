@@ -1,9 +1,5 @@
 //import { MediaTrackConstraints } from "@/types/MediaTrackConstraints";
-import {
-  VideoFacingModeEnum,
-  VideoResizeModeEnum,
-  SharedScreenDisplaySurfaceEnum,
-} from "@/types/enum";
+import type * as types from "@/types";
 
 /**
  * Mock of MediaTrackSettings
@@ -31,11 +27,11 @@ export type MediaTrackSettings = {
   frameRate?: number;
   height?: number;
   width?: number;
-  resizeMode?: VideoResizeModeEnum;
+  resizeMode?: types.enum.VideoResizeModeEnum;
 
   //# Instance properties of shared screen tracks
   cursor?: "always" | "motion" | "never";
-  displaySurface?: SharedScreenDisplaySurfaceEnum;
+  displaySurface?: types.enum.SharedScreenDisplaySurfaceEnum;
   logicalSurface?: boolean;
   suppressLocalAudioPlayback?: boolean;
 };

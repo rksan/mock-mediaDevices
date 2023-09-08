@@ -1,4 +1,4 @@
-import * as types from "@/types";
+import type * as types from "@/types";
 import { createMediaStream, createMockOptions } from "@/factory";
 
 //-------
@@ -38,12 +38,15 @@ export class MockMediaDevices implements types.MediaDevices {
   }
 
   getDisplayMedia(
-    options?: types.mock.MockMediaDeviceArgs
+    options?: types.mock.MediaDeviceArgs
   ): Promise<types.MediaStream> {
     const opt = createMockOptions(options);
 
     return new Promise((resolve) => {
       const stream = createMediaStream(this.#devices, opt);
+
+      this.dispatchEvent(new Event("devicechange"));
+
       resolve(stream);
     });
   }
@@ -75,22 +78,35 @@ export class MockMediaDevices implements types.MediaDevices {
   }
 
   getUserMedia(
-    options?: types.mock.MockMediaDeviceArgs
+    options?: types.mock.MediaDeviceArgs
   ): Promise<types.MediaStream> {
     const opt = createMockOptions(options);
 
     return new Promise((resolve) => {
       const stream = createMediaStream(this.#devices, opt);
+
+      this.dispatchEvent(new Event("devicechange"));
+
       resolve(stream);
     });
   }
 
-  selectAudioOutput(options: {
-    deviceId: string;
+  selectAudioOutput(options?: {
+    deviceId?: string;
   }): Promise<types.MediaDeviceInfo | void> {
     return new Promise((resolve) => {
       const info: types.MediaDeviceInfo[] = this.#devices.filter(
-        (device: types.MediaDeviceInfo) => device.deviceId === options.deviceId
+        (device: types.MediaDeviceInfo) => {
+          if (device.kind === "audiooutput") {
+            if (options && options.deviceId) {
+              return device.deviceId === options.deviceId;
+            } else {
+              return true;
+            }
+          } else {
+            return false;
+          }
+        }
       );
 
       if (info.length === 0) {
@@ -145,8 +161,6 @@ export class MockMediaDevices implements types.MediaDevices {
 
       this.#events[type] = callbacks;
     }
-    if (options) {
-      console.log(options);
-    }
+    if (options) console.log(options);
   }
 }

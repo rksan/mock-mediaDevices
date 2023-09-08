@@ -1,6 +1,8 @@
 import { describe, it } from "mocha";
 import { assert } from "chai";
 
+import { randomString } from "@rksan/random-string";
+
 import * as types from "@/types";
 import {
   createMediaDeviceInfo,
@@ -10,16 +12,23 @@ import {
 
 describe("createMediaStreamTrack", () => {
   const devices = createMediaDeviceInfo({
-    deviceId: "",
-    groupId: "",
+    deviceId: randomString(36),
+    groupId: randomString(36),
     kind: "videoinput",
     label: "mock-device",
   });
+
   const constrains: types.MediaTrackConstraints = createMediaTrackConstraints(
     "video",
     devices
   );
-  const track = createMediaStreamTrack({ constrains, kind: "video" });
+
+  const trackId = "vvv-" + randomString(32);
+  const track = createMediaStreamTrack({
+    constrains,
+    kind: "video",
+    id: trackId,
+  });
 
   it("create video track", () => {
     assert.isObject(track);
@@ -86,7 +95,12 @@ describe("createMediaStreamTrack", () => {
 
   it("create audio track", () => {
     const constrains: types.MediaTrackConstraints = {};
-    const track = createMediaStreamTrack({ constrains, kind: "audio" });
+    const trackId = `aaa-${randomString(32)}`;
+    const track = createMediaStreamTrack({
+      constrains,
+      kind: "audio",
+      id: trackId,
+    });
 
     assert.isObject(track);
   });

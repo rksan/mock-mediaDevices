@@ -26,8 +26,8 @@ export interface MediaDevices extends EventTarget {
     selfBrowserSurface?: "include" | "exclude";
     systemAudio?: "include" | "exclude";
   }): Promise<types.MediaStream>;
-  selectAudioOutput(options: {
-    deviceId: string;
+  selectAudioOutput(options?: {
+    deviceId?: string;
   }): Promise<types.MediaDeviceInfo | void>;
   ondevicechange?(event: Event): void;
 }
