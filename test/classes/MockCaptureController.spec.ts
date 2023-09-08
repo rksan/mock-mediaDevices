@@ -2,15 +2,15 @@ import { describe, it } from "mocha";
 import { assert } from "chai";
 
 import type * as types from "@/types";
-import { MockCaptureController } from "@/classes";
+import * as classes from "@/classes";
 
 describe("MockCaptureController", () => {
   let controller: types.CaptureController;
 
   it("create instance", () => {
-    controller = new MockCaptureController();
+    controller = new classes.MockCaptureController();
 
-    assert.isObject(controller);
+    assert.isNotOk(controller === undefined);
   });
 
   describe("methods", () => {

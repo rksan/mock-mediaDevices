@@ -23,11 +23,9 @@ describe("createMediaStreamTrack", () => {
     devices
   );
 
-  const trackId = "vvv-" + randomString(32);
   const track = createMediaStreamTrack({
     constrains,
     kind: "video",
-    id: trackId,
   });
 
   it("create video track", () => {
@@ -95,11 +93,9 @@ describe("createMediaStreamTrack", () => {
 
   it("create audio track", () => {
     const constrains: types.MediaTrackConstraints = {};
-    const trackId = `aaa-${randomString(32)}`;
     const track = createMediaStreamTrack({
       constrains,
       kind: "audio",
-      id: trackId,
     });
 
     assert.isObject(track);

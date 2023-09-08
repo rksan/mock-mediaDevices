@@ -1,5 +1,5 @@
 import type * as types from "@/types";
-import { toJSON } from "@/utils";
+import { toJSON, getUUID } from "@/utils";
 
 export class MockMediaDeviceInfo implements types.MediaDeviceInfo {
   #deviceId: string;
@@ -8,10 +8,10 @@ export class MockMediaDeviceInfo implements types.MediaDeviceInfo {
   #label: string;
 
   constructor(options: types.mock.MediaDeviceInfoArgs) {
-    this.#deviceId = options.deviceId;
-    this.#groupId = options.groupId;
+    this.#deviceId = options.deviceId || getUUID();
+    this.#groupId = options.groupId || getUUID();
     this.#kind = options.kind;
-    this.#label = options.label;
+    this.#label = options.label || `mock-${options.kind}-device`;
   }
 
   get deviceId() {

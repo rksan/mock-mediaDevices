@@ -1,6 +1,6 @@
 import type * as types from "@/types";
-import { deepClone } from "@/utils";
-import { MockMediaStreamTrackEvent } from "@/classes/MockMediaStreamTrackEvent";
+import * as classes from "@/classes";
+import { deepClone, getUUID } from "@/utils";
 
 //-------
 // types
@@ -26,9 +26,9 @@ export class MockMediaStream extends EventTarget implements types.MediaStream {
     removetrack: [],
   };
 
-  constructor(options: { id: string }) {
+  constructor() {
     super();
-    this.#id = options.id;
+    this.#id = getUUID();
   }
 
   get active(): boolean {
@@ -42,7 +42,11 @@ export class MockMediaStream extends EventTarget implements types.MediaStream {
   addTrack(track: types.MediaStreamTrack): void {
     if (this.#tracks.filter((t) => t.id === track.id).length === 0) {
       this.#tracks.push(track);
-      const event = new MockMediaStreamTrackEvent("addtrack", track);
+      const event = new classes.MockMediaStreamTrackEvent(
+        "addtrack",
+        this,
+        track
+      );
       this.dispatchEvent(event);
     }
   }
@@ -73,7 +77,11 @@ export class MockMediaStream extends EventTarget implements types.MediaStream {
   removeTrack(track: types.MediaStreamTrack): void {
     this.#tracks = this.#tracks.filter((t) => {
       if (t.id !== track.id) {
-        const event = new MockMediaStreamTrackEvent("removetrack", track);
+        const event = new classes.MockMediaStreamTrackEvent(
+          "removetrack",
+          this,
+          track
+        );
         this.dispatchEvent(event);
       }
     });

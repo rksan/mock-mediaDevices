@@ -17,7 +17,7 @@ type MockMediaDeviceEvents = {
  * Mock of MediaDevices
  *
  * @export
- * @class MockMediaDevices
+ * @class MockMediaDevicess
  * @implements {types.MediaDevices}
  */
 export class MockMediaDevices implements types.MediaDevices {

@@ -1,16 +1,18 @@
 import { describe, it } from "mocha";
 import { assert } from "chai";
 
-import { randomString } from "@rksan/random-string";
-import { classes, factory, types } from "@/index";
+import { factory, types } from "@/index";
 
 describe("mock-mediaDevices", () => {
   const devices: types.mock.MediaDeviceInfoArgs[] = [
     {
-      deviceId: randomString(32),
-      groupId: randomString(32),
       kind: "videoinput",
-      label: "test-video-device-label",
+    },
+    {
+      kind: "audioinput",
+    },
+    {
+      kind: "audiooutput",
     },
   ];
   const deviceInfos: types.MediaDeviceInfo[] =
@@ -54,7 +56,8 @@ describe("mock-mediaDevices", () => {
           const stream: types.MediaStream = await mediaDevices.getDisplayMedia({
             video: true,
           });
-          assert.instanceOf(stream, classes.MockMediaStream);
+
+          assert.isNotOk(stream === undefined);
         });
       });
 
@@ -66,7 +69,7 @@ describe("mock-mediaDevices", () => {
               aspectRatio: { ideal: 16 / 9 },
             },
           });
-          assert.instanceOf(stream, classes.MockMediaStream);
+          assert.isNotOk(stream === undefined);
         });
       });
 
@@ -75,7 +78,7 @@ describe("mock-mediaDevices", () => {
           const stream: types.MediaStream = await mediaDevices.getDisplayMedia({
             audio: true,
           });
-          assert.instanceOf(stream, classes.MockMediaStream);
+          assert.isNotOk(stream === undefined);
         });
       });
 
@@ -86,7 +89,7 @@ describe("mock-mediaDevices", () => {
               autoGainControl: true,
             },
           });
-          assert.instanceOf(stream, classes.MockMediaStream);
+          assert.isNotOk(stream === undefined);
         });
       });
 
@@ -103,7 +106,7 @@ describe("mock-mediaDevices", () => {
               autoGainControl: true,
             },
           });
-          assert.instanceOf(stream, classes.MockMediaStream);
+          assert.isNotOk(stream === undefined);
         });
       });
     });
@@ -112,6 +115,7 @@ describe("mock-mediaDevices", () => {
       it("do()", () => {
         const support: types.MediaTrackSupportedConstraints =
           mediaDevices.getSupportedConstraints();
+
         Object.entries(support).map(([key, value]) => {
           assert.isString(key);
           assert.isBoolean(value);

@@ -4,5 +4,5 @@ module.exports = {
   reporter: ["text"],
   extension: [".js", ".cjs", ".mjs", ".ts"],
   include: ["src/*"],
-  exclude: ["**/*.spec.*"],
+  exclude: ["src/types/*", "**/*.spec.*"],
 };

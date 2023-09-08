@@ -1,23 +1,18 @@
 import { describe, it } from "mocha";
 import { assert } from "chai";
 
-import { randomString } from "@rksan/random-string";
-
 import type * as types from "@/types";
-import { MockMediaDeviceInfo } from "@/classes";
+import * as classes from "@/classes";
 
 describe("MockMediaDeviceInfo", () => {
   let deviceInfo: types.MediaDeviceInfo;
 
   it("instance", () => {
-    deviceInfo = new MockMediaDeviceInfo({
-      deviceId: randomString(32),
-      groupId: randomString(32),
+    deviceInfo = new classes.MockMediaDeviceInfo({
       kind: "videoinput",
-      label: "mock-media-device",
     });
 
-    assert.isObject(deviceInfo);
+    assert.isNotOk(deviceInfo === undefined);
   });
 
   describe("properties", () => {

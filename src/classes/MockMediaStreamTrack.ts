@@ -1,5 +1,5 @@
 import type * as types from "@/types";
-import { deepClone } from "@/utils";
+import { deepClone, getUUID } from "@/utils";
 import { createMediaTrackSettings } from "@/factory";
 
 //-------
@@ -47,19 +47,19 @@ export class MockMediaStreamTrack implements types.MediaStreamTrack {
   #events: MockMediaStreamTrackEvents;
 
   constructor(options: {
-    constrains: types.MediaTrackConstraints;
+    constrains?: types.MediaTrackConstraints;
     kind: MockMediaStreamTrackKindEnum;
-    id: string;
   }) {
     this.#contentHint = "";
     this.#enabled = true;
-    this.#id = options.id;
+    this.#id = getUUID();
     this.#kind = options.kind;
-    this.#label = `${options.kind}-stram-track-label-1`;
+    this.#label = `mock-${options.kind}-stram-track`;
     this.#muted = false;
     this.#readyState = "live";
 
-    this.#constraints = options.constrains;
+    this.#constraints = options.constrains || {};
+
     this.#events = {
       ended: [],
       mute: [],

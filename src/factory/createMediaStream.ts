@@ -1,7 +1,7 @@
 import * as types from "@/types";
 import { deepClone } from "@/utils";
 import { createMediaStreamTrack } from "@/factory";
-import { MockMediaStream } from "@/classes/MockMediaStream";
+import * as classes from "@/classes";
 
 // private functions
 const createVideoTrackConstraints = (): types.MediaTrackConstraints => {
@@ -26,7 +26,7 @@ export const createMediaStream = (
     audio?: boolean | types.MediaTrackConstraints;
   }
 ): types.MediaStream => {
-  const stream = new MockMediaStream();
+  const stream = new classes.MockMediaStream();
 
   if (options) {
     if (options.video) {

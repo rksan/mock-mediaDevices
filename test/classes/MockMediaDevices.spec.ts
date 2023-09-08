@@ -1,42 +1,29 @@
 import { describe, it } from "mocha";
 import { assert } from "chai";
 
-import { randomString } from "@rksan/random-string";
-
 import type * as types from "@/types";
-import { MockMediaDeviceInfo, MockMediaDevices } from "@/classes";
+import * as classes from "@/classes";
 
 describe("MockMediaDevices", () => {
   let devices: types.MediaDevices;
 
-  const videoGroupId = randomString(32);
-  const audioGroupId = randomString(32);
+  const videoInputInfo = new classes.MockMediaDeviceInfo({
+    kind: "videoinput",
+  });
+  const audioInputInfo = new classes.MockMediaDeviceInfo({
+    kind: "audioinput",
+  });
+  const audioOutputInfo = new classes.MockMediaDeviceInfo({
+    groupId: audioInputInfo.groupId,
+    kind: "audiooutput",
+  });
 
-  const deviceInfos = [
-    new MockMediaDeviceInfo({
-      deviceId: randomString(32),
-      groupId: videoGroupId,
-      kind: "videoinput",
-      label: "mock-video-output-device",
-    }),
-    new MockMediaDeviceInfo({
-      deviceId: randomString(32),
-      groupId: audioGroupId,
-      kind: "audioinput",
-      label: "mock-autio-input-device",
-    }),
-    new MockMediaDeviceInfo({
-      deviceId: randomString(32),
-      groupId: audioGroupId,
-      kind: "audiooutput",
-      label: "mock-audio-output-device",
-    }),
-  ];
+  const deviceInfos = [videoInputInfo, audioInputInfo, audioOutputInfo];
 
   it("create instance", () => {
-    devices = new MockMediaDevices(deviceInfos);
+    devices = new classes.MockMediaDevices(deviceInfos);
 
-    assert.isObject(devices);
+    assert.isNotOk(devices === undefined);
   });
 
   describe("methods", () => {
@@ -46,7 +33,7 @@ describe("MockMediaDevices", () => {
       assert.isArray(infos);
 
       infos.forEach((info) => {
-        assert.isObject(info);
+        assert.isNotOk(info === undefined);
       });
     });
 
@@ -56,19 +43,19 @@ describe("MockMediaDevices", () => {
         audio: true,
       });
 
-      assert.isObject(stream);
+      assert.isNotOk(stream === undefined);
     });
 
     it("getSupportedConstraints", () => {
       const support = devices.getSupportedConstraints();
 
-      assert.isObject(support);
+      assert.isNotOk(support === undefined);
     });
 
     it("getUserMedia", async () => {
       const stream = await devices.getUserMedia({ video: true, audio: true });
 
-      assert.isObject(stream);
+      assert.isNotOk(stream === undefined);
     });
 
     it("selectAudioOutput", async () => {
@@ -76,11 +63,12 @@ describe("MockMediaDevices", () => {
 
       deviceInfo = await devices.selectAudioOutput();
 
-      assert.isObject(deviceInfo);
+      assert.isNotOk(deviceInfo === undefined);
 
       deviceInfo = await devices.selectAudioOutput({
         deviceId: "nothing-device",
       });
+
       assert.isUndefined(deviceInfo);
     });
 

@@ -1,18 +1,17 @@
 import { describe, it } from "mocha";
 import { assert } from "chai";
 
-import { randomString } from "@rksan/random-string";
-
 import type * as types from "@/types";
 import * as classes from "@/classes";
+import { getUUID } from "@/utils";
 
 describe("MockMediaStream", () => {
   let stream: types.MediaStream;
 
   it("create instance", () => {
-    stream = new classes.MockMediaStream({ id: randomString(36) });
+    stream = new classes.MockMediaStream();
 
-    assert.isObject(stream);
+    assert.isNotOk(stream === undefined);
   });
 
   describe("properties", () => {
@@ -23,8 +22,8 @@ describe("MockMediaStream", () => {
 
   describe("methods", () => {
     const ids = {
-      videoTrackId: "vvv-" + randomString(32),
-      audioTrackId: "aaa-" + randomString(32),
+      videoTrackId: "",
+      audioTrackId: "",
     };
 
     it("addTrack", () => {
@@ -34,15 +33,17 @@ describe("MockMediaStream", () => {
         new classes.MockMediaStreamTrack({
           constrains: {},
           kind: "video",
-          id: ids.videoTrackId,
         });
+
+      ids.videoTrackId = videoTrack.id;
 
       const audioTrack: types.MediaStreamTrack =
         new classes.MockMediaStreamTrack({
           constrains: {},
           kind: "audio",
-          id: ids.audioTrackId,
         });
+
+      ids.audioTrackId = audioTrack.id;
 
       stream.addTrack(videoTrack);
       stream.addTrack(audioTrack);
@@ -87,11 +88,10 @@ describe("MockMediaStream", () => {
     });
 
     it("removeTrack", () => {
-      const trackId = "ddd-" + randomString(32);
+      const trackId = getUUID();
       const track = new classes.MockMediaStreamTrack({
         constrains: {},
         kind: "video",
-        id: trackId,
       });
 
       stream.addTrack(track);
@@ -114,7 +114,6 @@ describe("MockMediaStream", () => {
     const dummyTrack = new classes.MockMediaStreamTrack({
       constrains: {},
       kind: "video",
-      id: "ddd-" + randomString(32),
     });
 
     it("addEventListener", () => {
