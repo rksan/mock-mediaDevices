@@ -1,3 +1,5 @@
+export type * as enum from "./enum";
+export type * as MediaTrackSettings from "./MediaTrackSettings/";
 export type * from "./MediaDeviceInfoArgs";
 export type * from "./MediaDeviceArgs";
 export type * from "./MediaStreamEventHandler";

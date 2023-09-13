@@ -1,10 +1,10 @@
 import type * as types from "@/types";
-import { createMediaStream, createMockOptions } from "@/factory";
+import * as factory from "@/factory";
 
 //-------
 // types
 //-------
-type MockMediaDeviceEventEnum = "devicechange";
+//type MockMediaDeviceEventEnum = "devicechange";
 
 type MockMediaDeviceEvents = {
   devicechange: EventListenerOrEventListenerObject[];
@@ -24,8 +24,8 @@ export class MockMediaDevices implements types.MediaDevices {
   #devices: types.MediaDeviceInfo[];
   #events: MockMediaDeviceEvents;
 
-  constructor(devices: types.MediaDeviceInfo[]) {
-    this.#devices = devices;
+  constructor(devices?: types.MediaDeviceInfo[]) {
+    this.#devices = devices || factory.getMediaDeviceInfo();
     this.#events = {
       devicechange: [],
     };
@@ -38,12 +38,12 @@ export class MockMediaDevices implements types.MediaDevices {
   }
 
   getDisplayMedia(
-    options?: types.mock.MediaDeviceArgs
+    args?: types.mock.MediaDeviceArgs
   ): Promise<types.MediaStream> {
-    const opt = createMockOptions(options);
+    const options = factory.createMockOptions(args);
 
     return new Promise((resolve) => {
-      const stream = createMediaStream(this.#devices, opt);
+      const stream = factory.createMediaStream(options);
 
       this.dispatchEvent(new Event("devicechange"));
 
@@ -80,10 +80,10 @@ export class MockMediaDevices implements types.MediaDevices {
   getUserMedia(
     options?: types.mock.MediaDeviceArgs
   ): Promise<types.MediaStream> {
-    const opt = createMockOptions(options);
+    const opt = factory.createMockOptions(options);
 
     return new Promise((resolve) => {
-      const stream = createMediaStream(this.#devices, opt);
+      const stream = factory.createMediaStream(opt);
 
       this.dispatchEvent(new Event("devicechange"));
 
@@ -118,7 +118,7 @@ export class MockMediaDevices implements types.MediaDevices {
   }
 
   addEventListener(
-    type: MockMediaDeviceEventEnum,
+    type: types.mock.enum.MediaDeviceEventEnum,
     callback: EventListenerOrEventListenerObject | null,
     options?: boolean | AddEventListenerOptions | undefined
   ): void {
@@ -152,7 +152,7 @@ export class MockMediaDevices implements types.MediaDevices {
   }
 
   removeEventListener(
-    type: MockMediaDeviceEventEnum,
+    type: types.mock.enum.MediaDeviceEventEnum,
     callback: EventListenerOrEventListenerObject | null,
     options?: boolean | EventListenerOptions | undefined
   ): void {

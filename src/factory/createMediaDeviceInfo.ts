@@ -8,16 +8,27 @@ const createInfo = (
 };
 
 export const createMediaDeviceInfo = (
-  info: types.mock.MediaDeviceInfoArgs | types.mock.MediaDeviceInfoArgs[]
+  infos?: types.mock.MediaDeviceInfoArgs | types.mock.MediaDeviceInfoArgs[]
 ): types.MediaDeviceInfo[] => {
-  if (Array.isArray(info)) {
-    const devices: types.MediaDeviceInfo[] = [];
-    for (const value of info) {
-      devices.concat(createMediaDeviceInfo(value));
+  if (infos) {
+    if (Array.isArray(infos)) {
+      const deviceInfos: types.MediaDeviceInfo[] = [];
+
+      infos.forEach((info) => {
+        deviceInfos.push(createInfo(info));
+      });
+
+      return deviceInfos;
+    } else {
+      return [createInfo(infos)];
     }
-    return devices;
   } else {
-    const devices = [createInfo(info)];
-    return devices;
+    const defaultInfo: types.mock.MediaDeviceInfoArgs[] = [
+      { kind: "videoinput" },
+      { kind: "audioinput" },
+      { kind: "audiooutput" },
+    ];
+
+    return createMediaDeviceInfo(defaultInfo);
   }
 };

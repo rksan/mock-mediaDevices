@@ -3,12 +3,13 @@ import { assert } from "chai";
 
 import type * as types from "@/types";
 import * as classes from "@/classes";
+import * as factory from "@/factory";
 
 describe("MockMediaStreamTrack", () => {
   let track: types.MediaStreamTrack;
 
   it("create instance", () => {
-    track = new classes.MockMediaStreamTrack({ kind: "video" });
+    track = new classes.MockMediaStreamTrack("video");
 
     assert.isNotOk(track === undefined);
   });
@@ -44,10 +45,52 @@ describe("MockMediaStreamTrack", () => {
   });
 
   describe("methods", () => {
-    it("applyConstraints", async () => {
-      track.applyConstraints({});
+    describe("applyConstraints", () => {
+      describe("kind of video", () => {
+        it("nothing constrain", async () => {
+          await track.applyConstraints();
 
-      assert.isOk(track.kind === "video");
+          assert.isOk(track.kind === "video");
+        });
+
+        it("boolean constrain", async () => {
+          await track.applyConstraints({ video: true });
+
+          assert.isOk(track.kind === "video");
+        });
+
+        it("width constrain", async () => {
+          await track.applyConstraints({
+            video: factory.createMediaTrackConstraints("video"),
+          });
+
+          assert.isOk(track.kind === "video");
+        });
+      });
+
+      describe("kind of audio", () => {
+        const audioTrack = new classes.MockMediaStreamTrack("audio");
+
+        it("nothing constrain", async () => {
+          await audioTrack.applyConstraints();
+
+          assert.isOk(audioTrack.kind === "audio");
+        });
+
+        it("boolean constrain", async () => {
+          await audioTrack.applyConstraints({ audio: true });
+
+          assert.isOk(audioTrack.kind === "audio");
+        });
+
+        it("width constrain", async () => {
+          await audioTrack.applyConstraints({
+            audio: factory.createMediaTrackConstraints("audio"),
+          });
+
+          assert.isOk(audioTrack.kind === "audio");
+        });
+      });
     });
 
     it("clone", () => {
@@ -87,28 +130,30 @@ describe("MockMediaStreamTrack", () => {
     it("addEventListener", () => {
       assert.isFunction(track.addEventListener);
 
+      track.addEventListener("ended", null);
       track.addEventListener("ended", handler);
-      track.addEventListener("mute", handleObj);
-      track.addEventListener("overconstrained", handler);
-      track.addEventListener("unmute", handleObj);
+      track.addEventListener("mute", handleObj, false);
+      track.addEventListener("overconstrained", handler, true);
+      track.addEventListener("unmute", handleObj, { capture: false });
     });
 
     it("dispatchEvent", () => {
       assert.isFunction(track.dispatchEvent);
 
-      track.dispatchEvent(new Event("ended"));
-      track.dispatchEvent(new Event("mute"));
-      track.dispatchEvent(new Event("overconstrained"));
-      track.dispatchEvent(new Event("unmute"));
+      assert.equal(true, track.dispatchEvent(new Event("ended")));
+      assert.equal(true, track.dispatchEvent(new Event("mute")));
+      assert.equal(true, track.dispatchEvent(new Event("overconstrained")));
+      assert.equal(true, track.dispatchEvent(new Event("unmute")));
+      assert.equal(false, track.dispatchEvent(new Event("dummy")));
     });
 
     it("removeEventListener", () => {
       assert.isFunction(track.removeEventListener);
 
       track.removeEventListener("ended", handler);
-      track.removeEventListener("mute", handleObj);
-      track.removeEventListener("overconstrained", handler);
-      track.removeEventListener("unmute", handleObj);
+      track.removeEventListener("mute", handleObj, false);
+      track.removeEventListener("overconstrained", handler, true);
+      track.removeEventListener("unmute", handleObj, { capture: false });
     });
   });
 });

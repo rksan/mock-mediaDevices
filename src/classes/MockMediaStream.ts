@@ -54,11 +54,11 @@ export class MockMediaStream extends EventTarget implements types.MediaStream {
   }
 
   getAudioTracks(): types.MediaStreamTrack[] {
-    return this.#tracks.filter((t) => t.kind === "audio");
+    return this.#tracks.filter((track) => track.kind === "audio");
   }
 
   getTrackById(id: string): types.MediaStreamTrack | undefined {
-    return this.#tracks.filter((t) => t.id === id).pop();
+    return this.#tracks.filter((track) => track.id === id).pop();
   }
 
   /**
@@ -69,7 +69,7 @@ export class MockMediaStream extends EventTarget implements types.MediaStream {
   }
 
   getVideoTracks(): types.MediaStreamTrack[] {
-    return this.#tracks.filter((t) => t.kind === "video");
+    return this.#tracks.filter((track) => track.kind === "video");
   }
 
   removeTrack(track: types.MediaStreamTrack): void {
@@ -84,7 +84,7 @@ export class MockMediaStream extends EventTarget implements types.MediaStream {
   }
 
   addEventListener(
-    type: types.enum.MediaStreamEventTypeEnum,
+    type: types.mock.enum.MediaStreamEventTypeEnum,
     callback: types.mock.MediaStreamEventHandler | null,
     options?: boolean | AddEventListenerOptions | undefined
   ): void {
@@ -113,7 +113,7 @@ export class MockMediaStream extends EventTarget implements types.MediaStream {
   }
 
   removeEventListener(
-    type: types.enum.MediaStreamEventTypeEnum,
+    type: types.mock.enum.MediaStreamEventTypeEnum,
     callback: types.mock.MediaStreamEventHandler | null,
     options?: boolean | EventListenerOptions | undefined
   ): void {

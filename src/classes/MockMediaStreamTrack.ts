@@ -1,28 +1,10 @@
 import type * as types from "@/types";
 import { deepClone, getUUID } from "@/utils";
-import { createMediaTrackSettings } from "@/factory";
+import * as factory from "@/factory";
 
 //-------
 // types
 //-------
-type MockMediaStreamTrackContentsHintEnum =
-  | ""
-  | "speech"
-  | "speech-recognition"
-  | "music"
-  | "motion"
-  | "detail"
-  | "text";
-
-type MockMediaStreamTrackKindEnum = "audio" | "video";
-
-type MockMediaStreamTrackReadyStateEnum = "live" | "ended";
-
-type MockMediaStreamTrackEventTypeEnum =
-  | "ended"
-  | "mute"
-  | "overconstrained"
-  | "unmute";
 
 type MockMediaStreamTrackEvents = {
   ended: EventListenerOrEventListenerObject[];
@@ -35,30 +17,37 @@ type MockMediaStreamTrackEvents = {
 // classes
 //---------
 export class MockMediaStreamTrack implements types.MediaStreamTrack {
-  #contentHint: MockMediaStreamTrackContentsHintEnum;
+  #contentHint: types.mock.enum.MediaStreamTrackContentsHintEnum;
   #enabled: boolean;
   #id: string;
-  #kind: MockMediaStreamTrackKindEnum;
+  #kind: types.mock.enum.MediaStreamTrackKindEnum;
   #label: string;
   #muted: boolean;
-  #readyState: MockMediaStreamTrackReadyStateEnum;
+  #readyState: types.mock.enum.MediaStreamTrackReadyStateEnum;
 
   #constraints: types.MediaTrackConstraints;
+  #settings: types.MediaTrackSettings;
   #events: MockMediaStreamTrackEvents;
 
-  constructor(options: {
-    constrains?: types.MediaTrackConstraints;
-    kind: MockMediaStreamTrackKindEnum;
-  }) {
+  constructor(
+    kind: types.mock.enum.MediaStreamTrackKindEnum,
+    constrains?: types.MediaTrackConstraints
+  ) {
+    if (constrains) {
+      this.#constraints = constrains;
+    } else {
+      this.#constraints = factory.createMediaTrackConstraints(kind);
+    }
+
+    this.#settings = factory.createMediaTrackSettings(kind, this.#constraints);
+
     this.#contentHint = "";
     this.#enabled = true;
-    this.#id = getUUID();
-    this.#kind = options.kind;
-    this.#label = `mock-${options.kind}-stram-track`;
+    this.#id = this.#settings.deviceId || getUUID();
+    this.#kind = kind;
+    this.#label = `mock-${kind}-stram-track`;
     this.#muted = false;
     this.#readyState = "live";
-
-    this.#constraints = options.constrains || {};
 
     this.#events = {
       ended: [],
@@ -71,7 +60,7 @@ export class MockMediaStreamTrack implements types.MediaStreamTrack {
   get contentHint() {
     return this.#contentHint;
   }
-  set contentHint(val: MockMediaStreamTrackContentsHintEnum) {
+  set contentHint(val: types.mock.enum.MediaStreamTrackContentsHintEnum) {
     this.#contentHint = val;
   }
 
@@ -117,6 +106,11 @@ export class MockMediaStreamTrack implements types.MediaStreamTrack {
             break;
           }
         }
+
+        this.#settings = factory.createMediaTrackSettings(
+          this.#kind,
+          this.#constraints
+        );
       }
 
       return resolve();
@@ -132,7 +126,7 @@ export class MockMediaStreamTrack implements types.MediaStreamTrack {
   }
 
   getSettings(): types.MediaTrackSettings {
-    return createMediaTrackSettings(this.#constraints);
+    return this.#settings;
   }
 
   stop(): void {
@@ -141,7 +135,7 @@ export class MockMediaStreamTrack implements types.MediaStreamTrack {
   }
 
   addEventListener(
-    type: MockMediaStreamTrackEventTypeEnum,
+    type: types.mock.enum.MediaStreamTrackEventTypeEnum,
     callback: EventListenerOrEventListenerObject | null,
     options?: boolean | AddEventListenerOptions | undefined
   ): void {
@@ -150,7 +144,7 @@ export class MockMediaStreamTrack implements types.MediaStreamTrack {
   }
 
   dispatchEvent(event: Event): boolean {
-    let callbacks: EventListenerOrEventListenerObject[] = [];
+    let callbacks: EventListenerOrEventListenerObject[] | undefined;
 
     switch (event.type) {
       case "ended":
@@ -164,6 +158,9 @@ export class MockMediaStreamTrack implements types.MediaStreamTrack {
         break;
       case "unmute":
         callbacks = this.#events.unmute;
+        break;
+      default:
+        callbacks = undefined;
         break;
     }
 
@@ -184,7 +181,7 @@ export class MockMediaStreamTrack implements types.MediaStreamTrack {
   }
 
   removeEventListener(
-    type: MockMediaStreamTrackEventTypeEnum,
+    type: types.mock.enum.MediaStreamTrackEventTypeEnum,
     callback: EventListenerOrEventListenerObject | null,
     options?: boolean | EventListenerOptions | undefined
   ): void {

@@ -6,10 +6,10 @@ import type * as types from "@/types";
 export type MediaTrackConstraintsOfSharedScreen = {
   //# Instance properties of shared screen tracks
   displaySurface?:
-    | types.enum.SharedScreenDisplaySurfaceEnum
+    | types.mock.enum.SharedScreenDisplaySurfaceEnum
     | (Omit<ConstrainDOMString, "ideal" | "exact"> & {
-        ideal?: types.enum.SharedScreenDisplaySurfaceEnum;
-        exact?: types.enum.SharedScreenDisplaySurfaceEnum;
+        ideal?: types.mock.enum.SharedScreenDisplaySurfaceEnum;
+        exact?: types.mock.enum.SharedScreenDisplaySurfaceEnum;
       });
   logicalSurface?: boolean | types.ConstrainBoolean;
   suppressLocalAudioPlayback?: boolean | types.ConstrainBoolean;

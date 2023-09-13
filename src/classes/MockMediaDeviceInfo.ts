@@ -4,7 +4,7 @@ import { toJSON, getUUID } from "@/utils";
 export class MockMediaDeviceInfo implements types.MediaDeviceInfo {
   #deviceId: string;
   #groupId: string;
-  #kind: types.enum.MediaDeviceInfoKindEnum;
+  #kind: types.mock.enum.MediaDeviceInfoKindEnum;
   #label: string;
 
   constructor(options: types.mock.MediaDeviceInfoArgs) {

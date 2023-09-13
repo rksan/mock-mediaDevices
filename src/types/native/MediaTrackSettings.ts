@@ -1,6 +1,3 @@
-//import { MediaTrackConstraints } from "@/types/MediaTrackConstraints";
-import type * as types from "@/types";
-
 /**
  * Mock of MediaTrackSettings
  * @ref [MediaTrackSettings | MDN](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackSettings)
@@ -23,15 +20,15 @@ export type MediaTrackSettings = {
 
   //# Instance properties of video tracks
   aspectRatio?: number;
-  facingMode?: VideoFacingModeEnum;
+  facingMode?: string;
   frameRate?: number;
   height?: number;
   width?: number;
-  resizeMode?: types.enum.VideoResizeModeEnum;
+  resizeMode?: string;
 
   //# Instance properties of shared screen tracks
-  cursor?: "always" | "motion" | "never";
-  displaySurface?: types.enum.SharedScreenDisplaySurfaceEnum;
+  cursor?: string;
+  displaySurface?: string;
   logicalSurface?: boolean;
   suppressLocalAudioPlayback?: boolean;
 };

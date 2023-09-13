@@ -4,22 +4,7 @@ import { assert } from "chai";
 import { factory, types } from "@/index";
 
 describe("mock-mediaDevices", () => {
-  const devices: types.mock.MediaDeviceInfoArgs[] = [
-    {
-      kind: "videoinput",
-    },
-    {
-      kind: "audioinput",
-    },
-    {
-      kind: "audiooutput",
-    },
-  ];
-  const deviceInfos: types.MediaDeviceInfo[] =
-    factory.createMediaDeviceInfo(devices);
-
-  const mediaDevices: types.MediaDevices =
-    factory.createMediaDevices(deviceInfos);
+  const mediaDevices: types.MediaDevices = factory.createMediaDevices();
 
   describe("mediaDevices", () => {
     describe("enumerateDevices()", () => {

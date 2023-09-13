@@ -9,13 +9,13 @@ describe("MockMediaStreamTrackEvent", () => {
 
   it("create instance", () => {
     const stream = new classes.MockMediaStream();
-    const track = new classes.MockMediaStreamTrack({ kind: "video" });
+    const track = new classes.MockMediaStreamTrack("video");
 
     stream.addTrack(track);
 
     event = new classes.MockMediaStreamTrackEvent("addtrack", { track });
 
-    assert.isOk(event === undefined);
+    assert.isNotOk(event === undefined);
   });
 
   describe("properties", () => {

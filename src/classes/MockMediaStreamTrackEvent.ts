@@ -8,7 +8,7 @@ export class MockMediaStreamTrackEvent
 
   constructor(
     //type: string,
-    type: types.enum.MediaStreamEventTypeEnum,
+    type: types.mock.enum.MediaStreamEventTypeEnum,
     options: {
       bubbles?: boolean;
       cancelable?: boolean;

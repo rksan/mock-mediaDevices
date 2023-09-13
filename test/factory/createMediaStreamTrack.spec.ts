@@ -1,29 +1,14 @@
 import { describe, it } from "mocha";
 import { assert } from "chai";
 
-import { randomString } from "@rksan/random-string";
-
 import * as types from "@/types";
-import {
-  createMediaDeviceInfo,
-  createMediaStreamTrack,
-  createMediaTrackConstraints,
-} from "@/factory";
+import * as factory from "@/factory";
 
 describe("createMediaStreamTrack", () => {
-  const devices = createMediaDeviceInfo({
-    deviceId: randomString(36),
-    groupId: randomString(36),
-    kind: "videoinput",
-    label: "mock-device",
-  });
+  const constrains: types.MediaTrackConstraints =
+    factory.createMediaTrackConstraints("video");
 
-  const constrains: types.MediaTrackConstraints = createMediaTrackConstraints(
-    "video",
-    devices
-  );
-
-  const track = createMediaStreamTrack({
+  const track = factory.createMediaStreamTrack({
     constrains,
     kind: "video",
   });
@@ -93,7 +78,7 @@ describe("createMediaStreamTrack", () => {
 
   it("create audio track", () => {
     const constrains: types.MediaTrackConstraints = {};
-    const track = createMediaStreamTrack({
+    const track = factory.createMediaStreamTrack({
       constrains,
       kind: "audio",
     });

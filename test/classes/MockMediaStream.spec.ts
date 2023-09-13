@@ -30,18 +30,12 @@ describe("MockMediaStream", () => {
       assert.isFunction(stream.addTrack);
 
       const videoTrack: types.MediaStreamTrack =
-        new classes.MockMediaStreamTrack({
-          constrains: {},
-          kind: "video",
-        });
+        new classes.MockMediaStreamTrack("video");
 
       ids.videoTrackId = videoTrack.id;
 
       const audioTrack: types.MediaStreamTrack =
-        new classes.MockMediaStreamTrack({
-          constrains: {},
-          kind: "audio",
-        });
+        new classes.MockMediaStreamTrack("audio");
 
       ids.audioTrackId = audioTrack.id;
 
@@ -89,10 +83,7 @@ describe("MockMediaStream", () => {
 
     it("removeTrack", () => {
       const trackId = getUUID();
-      const track = new classes.MockMediaStreamTrack({
-        constrains: {},
-        kind: "video",
-      });
+      const track = new classes.MockMediaStreamTrack("video");
 
       stream.addTrack(track);
       stream.removeTrack(track);
@@ -111,10 +102,7 @@ describe("MockMediaStream", () => {
         console.log("handleObj", event),
     };
 
-    const dummyTrack = new classes.MockMediaStreamTrack({
-      constrains: {},
-      kind: "video",
-    });
+    const dummyTrack = new classes.MockMediaStreamTrack("audio");
 
     it("addEventListener", () => {
       assert.isFunction(stream.addEventListener);
@@ -135,8 +123,23 @@ describe("MockMediaStream", () => {
         track: dummyTrack,
       });
 
-      stream.dispatchEvent(addEvent);
-      stream.dispatchEvent(rmvEvent);
+      class DummyEvent extends Event implements types.MediaStreamTrackEvent {
+        #track: types.MediaStreamTrack;
+        constructor(type: "dummy", options: { track: types.MediaStreamTrack }) {
+          super(type);
+          this.#track = options.track;
+        }
+        get track(): types.MediaStreamTrack {
+          return this.#track;
+        }
+      }
+
+      assert.equal(true, stream.dispatchEvent(addEvent));
+      assert.equal(true, stream.dispatchEvent(rmvEvent));
+      assert.equal(
+        false,
+        stream.dispatchEvent(new DummyEvent("dummy", { track: dummyTrack }))
+      );
     });
 
     it("removeEventListener", () => {
