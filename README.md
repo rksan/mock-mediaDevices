@@ -16,7 +16,7 @@ WebAPI window.navigator.mediaDevices のモックを生成
 - [mocha | github](https://github.com/mochajs/mocha)
 - [chai | github](https://github.com/chaijs/chai)
 
-## setup
+### setup
 
 まず[`jsdom`](https://github.com/jsdom/jsdom)を用いて、[nodejs](https://nodejs.org/ja)で動作可能な[`window.navigator`](https://developer.mozilla.org/ja/docs/Web/API/Navigator)を生成し、`mockMediaDevices()`によって生成される`mediaDevices`オブジェクトを`window.navigator`へ登録するセットアップモジュールを作成する
 
@@ -41,7 +41,7 @@ if(Object.prototype.hasOwnProperty.call(navigator, "mediaDevices")){
 }
 ```
 
-## With test runner
+### With test runner
 
 次に、テストコード内で`test/setup.ts`を呼び出してテストコードを実行する
 
@@ -83,7 +83,8 @@ npm i -D @rksan/mock-media-devices
 ## syntax
 
 ```typescript
-const mediaDevices: MediaDevices = mockMediaDevices(deviceInfos?: MediaDeviceInfo[])
+const mediaDevices: MediaDevices =
+  mockMediaDevices(deviceInfos?: MediaDeviceInfo[])
 ```
 
 ### arguments
@@ -99,7 +100,7 @@ const mediaDevices: MediaDevices = mockMediaDevices(deviceInfos?: MediaDeviceInf
 ```typescript
 [
   {
-    deviceId: UUID,
+    deviceId: UUID, // *1
     groupId: UUID,
     kind: "videoinput",
     label: "mock-videoinput-device",
@@ -118,6 +119,8 @@ const mediaDevices: MediaDevices = mockMediaDevices(deviceInfos?: MediaDeviceInf
   },
 ];
 ```
+
+\*1 `UUDD` は `nodejs` 標準パッケージ `crypto.randomUUID()` にて生成される
 
 # Reference
 
