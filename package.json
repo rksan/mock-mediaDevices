@@ -4,6 +4,9 @@
   "version": "0.0.1",
   "main": "dist/index.js",
   "types": "types-defines/",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "tsc:init": "tsc --init",
     "preunit": "rm -rf .nyc_output && rm -rf tsconfig.tsnode.json && tsc -p ./tsconfig.json --showConfig > tsconfig.tsnode.json",
