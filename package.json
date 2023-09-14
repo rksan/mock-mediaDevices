@@ -40,7 +40,6 @@
     "@babel/eslint-parser": "^7.22.11",
     "@babel/preset-env": "^7.22.10",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
-    "@rksan/mock-media-devices": "file:rksan-mock-media-devices-0.0.1.tgz",
     "@types/chai": "^4.3.5",
     "@types/eslint": "^8.44.2",
     "@types/mocha": "^10.0.1",
