@@ -11,14 +11,14 @@ export interface MediaStream extends EventTarget {
   getVideoTracks(): types.MediaStreamTrack[];
   removeTrack(track: types.MediaStreamTrack): void;
   addEventListener(
-    type: types.enum.MediaStreamEventTypeEnum,
-    callback: types.mock.MediaStreamEventHandler | null,
+    type: "addtrack" | "removetrack",
+    callback: EventListenerOrEventListenerObject | null,
     options?: boolean | AddEventListenerOptions | undefined
   ): void;
   dispatchEvent(event: types.MediaStreamTrackEvent): boolean;
   removeEventListener(
-    type: types.enum.MediaStreamEventTypeEnum,
-    callback: types.mock.MediaStreamEventHandler | null,
+    type: "addtrack" | "removetrack",
+    callback: EventListenerOrEventListenerObject | null,
     options?: boolean | EventListenerOptions | undefined
   ): void;
   onaddtrack?(event: types.MediaStreamTrackEvent): void;
