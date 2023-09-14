@@ -11,6 +11,7 @@
     "coverage": "npm run test && nyc report --reporter=lcovonly",
     "prebuild:ts": "rm -rf dist && rm -rf types-defines",
     "build:ts": "tsc -p ./tsconfig.build.json && tsc-alias -p ./tsconfig.build.json",
+    "build": "npm run build:ts",
     "lint": "eslint . --ignore-path .gitignore --ignore-path .eslintignore",
     "lint:fix": "npm run lint -- --fix"
   },
