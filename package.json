@@ -1,19 +1,23 @@
 {
-  "name": "@rksan/mock-mediadevices",
+  "name": "@rksan/mock-media-devices",
   "description": "WebAPI window.navigator.mediaDevices のモック",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/index.js",
+  "types": "types-defines/",
   "scripts": {
     "tsc:init": "tsc --init",
-    "pretest": "rm -rf .nyc_output && rm -rf tsconfig.tsnode.json && tsc -p ./tsconfig.json --showConfig > tsconfig.tsnode.json",
-    "test": "nyc ts-mocha --paths -p ./tsconfig.tsnode.json test/**/*.spec.ts",
+    "preunit": "rm -rf .nyc_output && rm -rf tsconfig.tsnode.json && tsc -p ./tsconfig.json --showConfig > tsconfig.tsnode.json",
+    "unit": "nyc ts-mocha --paths -p ./tsconfig.tsnode.json test/unit/**/*.spec.ts",
+    "inte": "ts-mocha --paths -p ./tsconfig.tsnode.json test/inte/**/*.spec.ts",
+    "test": "npm run unit",
     "precoverage": "rm -rf coverage && mkdir coverage",
     "coverage": "npm run test && nyc report --reporter=lcovonly",
     "prebuild:ts": "rm -rf dist && rm -rf types-defines",
     "build:ts": "tsc -p ./tsconfig.build.json && tsc-alias -p ./tsconfig.build.json",
     "build": "npm run build:ts",
     "lint": "eslint . --ignore-path .gitignore --ignore-path .eslintignore",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "upgrade:local": "npm uninstall @rksan/mock-media-devices && npm install -D rksan-mock-media-devices-0.0.1.tgz"
   },
   "repository": {
     "type": "git",
@@ -22,7 +26,8 @@
   "keywords": [
     "WebAPI",
     "mediaDevices",
-    "mock"
+    "mock",
+    "unit"
   ],
   "author": "rksan",
   "license": "MIT",

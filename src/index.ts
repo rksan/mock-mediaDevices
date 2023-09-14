@@ -1,1 +1,1 @@
-export * from "./mock-mediaDevices";
+export * from "./mockMediaDevices";
